@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Student(models.Model):
-    user = models.OneToOneField(User, null=True)
+    user = models.OneToOneField(User, editable=False)
     username = models.CharField(max_length=30, db_index=True, editable=False)
     exp = models.IntegerField(default=0)
     gold = models.IntegerField(default=0)
@@ -30,7 +30,7 @@ class Course(models.Model):
 
 
 class Quiz(models.Model):
-    content = models.CharField(max_lengthg=3000)
+    content = models.CharField(max_length=3000)
     test_code = models.CharField(max_length=300)
 
 
