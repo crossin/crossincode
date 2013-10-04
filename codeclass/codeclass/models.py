@@ -42,7 +42,7 @@ class Lesson(models.Model):
     count_question = models.IntegerField(default=0)
     count_answer = models.IntegerField(default=0)
     course = models.ForeignKey(Course)
-    quiz = models.OneToOneField(Quiz, null=True)
+    quiz = models.OneToOneField(Quiz, null=True, blank=True)
 
     def __unicode__(self):
         return self.title
