@@ -1,0 +1,6 @@
+Courses of {{ language.name }}
+<br />
+{% for c in courses %}
+<a href="/course/{{ c.id }}/">{{ c.name }}</a>
+<br />
+{% endfor %}

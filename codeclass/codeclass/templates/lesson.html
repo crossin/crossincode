@@ -1,0 +1,23 @@
+{% load static %}
+{% load dajaxice_templatetags %}
+{% dajaxice_js_import %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+<script src="{% static '/static/dajax/jquery.dajax.core.js' %}"></script>
+<script>
+function run_code(){
+    Dajaxice.codeclass.run_code(Dajax.process);
+}
+</script>
+
+<h1>{{ lesson.title }}</h1>
+<br />
+<p>{{ lesson.content }}</p>
+<br />
+
+<textarea rows="10" cols="30">
+</textarea>
+<br />
+<input type="button" value="提交代码" onclick="run_code();">
+<br />
+<textarea id="console" rows="10" cols="30" readonly>
+</textarea>
