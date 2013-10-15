@@ -140,7 +140,10 @@ INSTALLED_APPS = (
     'south',
     'dajaxice',
     'dajax',
-    'codeclass'
+    'school',
+    'member',
+    'forum',
+    'oj',
 )
 
 # A sample logging configuration. The only tangible logging

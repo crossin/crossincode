@@ -8,14 +8,35 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Question'
+        db.create_table(u'forum_question', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('content', self.gf('django.db.models.fields.CharField')(max_length=3000)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Student'])),
+            ('lesson', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['school.Lesson'], null=True)),
+        ))
+        db.send_create_signal(u'forum', ['Question'])
 
-        # Changing field 'Student.user'
-        db.alter_column(u'codeclass_student', 'user_id', self.gf('django.db.models.fields.related.OneToOneField')(default='', to=orm['auth.User'], unique=True))
+        # Adding model 'Answer'
+        db.create_table(u'forum_answer', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('content', self.gf('django.db.models.fields.CharField')(max_length=3000)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Student'])),
+            ('question', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['forum.Question'])),
+        ))
+        db.send_create_signal(u'forum', ['Answer'])
+
 
     def backwards(self, orm):
+        # Deleting model 'Question'
+        db.delete_table(u'forum_question')
 
-        # Changing field 'Student.user'
-        db.alter_column(u'codeclass_student', 'user_id', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, null=True))
+        # Deleting model 'Answer'
+        db.delete_table(u'forum_answer')
+
 
     models = {
         u'auth.group': {
@@ -47,69 +68,31 @@ class Migration(SchemaMigration):
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
-        u'codeclass.answer': {
+        u'contenttypes.contenttype': {
+            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
+            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'forum.answer': {
             'Meta': {'object_name': 'Answer'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Student']"}),
+            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['member.Student']"}),
             'content': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'question': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Question']"})
+            'question': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['forum.Question']"})
         },
-        u'codeclass.course': {
-            'Meta': {'object_name': 'Course'},
-            'count_student': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Language']"}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'codeclass.language': {
-            'Meta': {'object_name': 'Language'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
-        },
-        u'codeclass.learnedcourse': {
-            'Meta': {'object_name': 'LearnedCourse'},
-            'course': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Course']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'progress': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'student': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Student']"})
-        },
-        u'codeclass.learnedlesson': {
-            'Meta': {'object_name': 'LearnedLesson'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lesson': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Lesson']"}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "'N'", 'max_length': '1'}),
-            'student': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Student']"})
-        },
-        u'codeclass.lesson': {
-            'Meta': {'object_name': 'Lesson'},
-            'content': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
-            'count_answer': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'count_finished': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'count_question': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'count_student': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'course': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Course']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'quiz': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['codeclass.Quiz']", 'unique': 'True', 'null': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'codeclass.question': {
+        u'forum.question': {
             'Meta': {'object_name': 'Question'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Student']"}),
+            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['member.Student']"}),
             'content': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lesson': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['codeclass.Lesson']", 'null': 'True'}),
+            'lesson': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['school.Lesson']", 'null': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        u'codeclass.quiz': {
-            'Meta': {'object_name': 'Quiz'},
-            'content': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'test_code': ('django.db.models.fields.CharField', [], {'max_length': '300'})
-        },
-        u'codeclass.student': {
+        u'member.student': {
             'Meta': {'object_name': 'Student'},
             'exp': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'gold': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
@@ -117,13 +100,37 @@ class Migration(SchemaMigration):
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'max_length': '30', 'db_index': 'True'})
         },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+        u'oj.quiz': {
+            'Meta': {'object_name': 'Quiz'},
+            'content': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'test_code': ('django.db.models.fields.CharField', [], {'max_length': '300'})
+        },
+        u'school.course': {
+            'Meta': {'object_name': 'Course'},
+            'count_student': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'description': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'language': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['school.Language']"}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        u'school.language': {
+            'Meta': {'object_name': 'Language'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+        },
+        u'school.lesson': {
+            'Meta': {'object_name': 'Lesson'},
+            'content': ('django.db.models.fields.CharField', [], {'max_length': '3000'}),
+            'count_answer': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'count_finished': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'count_question': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'count_student': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'course': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['school.Course']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'quiz': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['oj.Quiz']", 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         }
     }
 
-    complete_apps = ['codeclass']
+    complete_apps = ['forum']
