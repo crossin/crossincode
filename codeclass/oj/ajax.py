@@ -8,5 +8,5 @@ from runcode import run
 def run_code(request, code):
     result = run(code)
     dajax = Dajax()
-    dajax.assign('#console', 'value', result)
+    dajax.add_data(result, 'show_result')
     return dajax.json()

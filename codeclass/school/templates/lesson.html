@@ -4,25 +4,59 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
 <script src="{% static '/static/dajax/jquery.dajax.core.js' %}"></script>
 <script>
-function run_code() {
-    Dajaxice.oj.run_code(
-        Dajax.process,
-        {
-            'code':$('#code').val()
-        }
-    );
-}
 </script>
+
+<style type="text/css" media="screen">
+    #editor, #console { 
+        position: relative;
+        height: 200px;
+        width: 600px;
+    }
+</style>
 
 <h1>{{ lesson.title }}</h1>
 <br />
 <p>{{ lesson.content }}</p>
 <br />
 
-<textarea id="code" rows="10" cols="30">
-</textarea>
-<br />
-<input type="button" value="提交代码" onclick="run_code();">
-<br />
-<textarea id="console" rows="10" cols="30" readonly>
-</textarea>
+<div id="editor">
+</div>
+<input type="button" value="提交代码 ( Ctrl+B )" onclick="run_code();" />
+<div id="console">
+</div>
+
+
+<script src="http://ace.c9.io/build/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/python");
+    editor.focus();
+    editor.commands.addCommand({
+        name: 'run',
+        bindKey: {win: 'Ctrl-B',  mac: 'Command-B'},
+        exec: function(editor) {
+            run_code();
+        },
+    });
+
+    var console = ace.edit("console");
+    console.setTheme("ace/theme/twilight");
+    console.getSession().setMode("ace/mode/plain_text");
+    console.setReadOnly(true);
+
+    function run_code() {
+        Dajaxice.oj.run_code(
+            Dajax.process,
+            {
+                'code':editor.getValue()
+            }
+        );
+    }
+
+    function show_result(result) {
+        console.setValue(result, 1);
+        editor.focus();
+    }
+</script>
+
