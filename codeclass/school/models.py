@@ -22,6 +22,7 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
+    sequence = models.IntegerField(default=0)
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=3000)
     count_student = models.IntegerField(default=0)
@@ -30,6 +31,15 @@ class Lesson(models.Model):
     count_answer = models.IntegerField(default=0)
     course = models.ForeignKey(Course)
     quiz = models.OneToOneField(oj_models.Quiz, null=True, blank=True)
+
+    @property
+    def next_lesson(self):
+        nl = Lesson.objects.filter(
+            sequence__gt=self.sequence).order_by('sequence')[:1]
+        if len(nl) > 0:
+            return nl[0].id
+        else:
+            return None
 
     def __unicode__(self):
         return self.title

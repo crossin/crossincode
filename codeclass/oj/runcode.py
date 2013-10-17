@@ -39,7 +39,7 @@ def exec_code(code, _globals):
     exec code in _globals
 
 
-def run(code):
+def run(code, test_code):
 #    buffer = StringIO()
 #    sys.stdin = buffer
 #    sys.stdout = buffer
@@ -61,7 +61,17 @@ def run(code):
         }) or restricted_globals['result']
     except Exception, e:
         result = '[Error] %s: %s' % (type(e).__name__, e)
-    return result
+
+    if test_code:
+        test_code = 'passed=(%s)' % test_code
+        try:
+            exec test_code in restricted_globals
+            passed = restricted_globals['passed']
+        except:
+            passed = False
+        return result, passed
+
+    return result, False
 #    sys.stdin = sys.__stdin__
 #    sys.stdout = sys.__stdout__
 #    return buffer.getvalue()

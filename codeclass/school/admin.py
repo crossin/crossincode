@@ -12,7 +12,7 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'content']
+    list_display = ['id', 'course', 'sequence', 'title', 'content']
 
 
 class LearnedLessonAdmin(admin.ModelAdmin):

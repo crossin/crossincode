@@ -14,16 +14,20 @@
     }
 </style>
 
-<h1>{{ lesson.title }}</h1>
+<h1>第{{ lesson.sequence }}课 {{ lesson.title }}</h1>
 <br />
 <p>{{ lesson.content }}</p>
 <br />
-
-<div id="editor">
-</div>
+<div id="editor">{{ lesson.quiz.pre_code }}</div>
 <input type="button" value="提交代码 ( Ctrl+B )" onclick="run_code();" />
-<div id="console">
+<div id="next_lesson" style="visibility: hidden;display:inline-block">
+{% if lesson.next_lesson %}
+<a href="/lesson/{{ lesson.next_lesson }}/">进入下一课</a>
+{% else %}
+完成本系列课程，返回<a href="/course/{{ lesson.course.id }}/">课程列表</a>
+{% endif %}  
 </div>
+<div id="console"></div>
 
 
 <script src="http://ace.c9.io/build/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -49,14 +53,22 @@
         Dajaxice.oj.run_code(
             Dajax.process,
             {
-                'code':editor.getValue()
+                'code': editor.getValue(),
+                {% if lesson.quiz %}
+                    'quiz': {{ lesson.quiz.id }}
+                {% endif %}
             }
         );
     }
 
     function show_result(result) {
-        console.setValue(result, 1);
+        console.setValue(result[0], 1);
         editor.focus();
+        if (result[1] == true) {
+            alert('bingo!');
+            var next = document.getElementById('next_lesson');
+            next.style.visibility = 'visible';
+        }
     }
 </script>
 
