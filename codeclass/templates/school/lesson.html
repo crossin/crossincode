@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block body %}
 {% load static %}
 {% load dajaxice_templatetags %}
 {% dajaxice_js_import %}
@@ -71,4 +74,4 @@
         }
     }
 </script>
-
+{% endblock %}

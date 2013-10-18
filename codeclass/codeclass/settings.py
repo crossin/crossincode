@@ -2,7 +2,7 @@
 from os.path import dirname, join as join_path
 
 
-PROJECT_ROOT = join_path(dirname(__file__), '../..')
+PROJECT_ROOT = join_path(dirname(__file__), '../')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -73,7 +73,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-#    join_path(PROJECT_ROOT, 'codeclass/static/').replace('\\', '/'),
+#    join_path(PROJECT_ROOT, 'static/').replace('\\', '/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -114,6 +114,7 @@ ROOT_URLCONF = 'codeclass.urls'
 WSGI_APPLICATION = 'codeclass.wsgi.application'
 
 TEMPLATE_DIRS = (
+    join_path(PROJECT_ROOT, 'templates/').replace('\\', '/'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -137,6 +138,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.humanize',
+    'registration',
     'south',
     'dajaxice',
     'dajax',
@@ -174,3 +177,10 @@ LOGGING = {
         },
     }
 }
+
+# registration
+ACCOUNT_ACTIVATION_DAYS = 7
+
+# email
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = '/tmp/crossincode.email/'

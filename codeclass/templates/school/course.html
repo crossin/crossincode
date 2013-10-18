@@ -1,6 +1,10 @@
+{% extends "base.html" %}
+
+{% block body %}
 Lessons of {{ course.name }}
 <br />
 {% for l in lessons %}
 <a href="/lesson/{{ l.id }}/">第{{ l.sequence }}课 {{ l.title }}</a>
 <br />
 {% endfor %}
+{% endblock %}

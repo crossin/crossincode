@@ -1,6 +1,10 @@
+{% extends "base.html" %}
+
+{% block body %}
 Welcome to Crossin's Code Class
 <br />
 {% for l in languages %}
 <a href="/language/{{ l.id }}/">{{ l.name }}</a>
 <br />
 {% endfor %}
+{% endblock %}

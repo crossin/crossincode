@@ -11,7 +11,7 @@ def home_view(request):
 def language_view(request, language_id):
     language = models.Language.objects.get(id=language_id)
     courses = models.Course.objects.filter(language=language)
-    return TemplateResponse(request, 'language.html', {
+    return TemplateResponse(request, 'school/language.html', {
         'language': language,
         'courses': courses
     })
@@ -20,7 +20,7 @@ def language_view(request, language_id):
 def course_view(request, course_id):
     course = models.Course.objects.get(id=course_id)
     lessons = models.Lesson.objects.filter(course=course)
-    return TemplateResponse(request, 'course.html', {
+    return TemplateResponse(request, 'school/course.html', {
         'course': course,
         'lessons': lessons
     })
@@ -28,6 +28,6 @@ def course_view(request, course_id):
 
 def lesson_view(request, lesson_id):
     lesson = models.Lesson.objects.get(id=lesson_id)
-    return TemplateResponse(request, 'lesson.html', {
+    return TemplateResponse(request, 'school/lesson.html', {
         'lesson': lesson
     })
