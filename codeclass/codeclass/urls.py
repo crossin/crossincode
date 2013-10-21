@@ -13,6 +13,7 @@ urlpatterns = patterns(
     url(r'^accounts/', include('registration.backends.default.urls')),
 
     url(r'^oj/', include('oj.urls')),
+    url(r'^user/', include('member.urls')),
     url(r'^', include('school.urls')),
 
 )

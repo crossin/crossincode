@@ -1,6 +1,5 @@
 from django.db import models
 
-from member import models as mb_models
 from oj import models as oj_models
 
 
@@ -29,7 +28,7 @@ class Lesson(models.Model):
     count_finished = models.IntegerField(default=0)
     count_question = models.IntegerField(default=0)
     count_answer = models.IntegerField(default=0)
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, related_name='lessons')
     quiz = models.OneToOneField(oj_models.Quiz, null=True, blank=True)
 
     @property
@@ -43,23 +42,3 @@ class Lesson(models.Model):
 
     def __unicode__(self):
         return self.title
-
-
-STUTES_CHOICES = (
-    ('N', 'new'),
-    ('L', 'learned'),
-    ('P', 'passed')
-)
-
-
-class LearnedLesson(models.Model):
-    student = models.ForeignKey(mb_models.Student)
-    lesson = models.ForeignKey(Lesson)
-    status = models.CharField(max_length=1, choices=STUTES_CHOICES,
-                              default='N')
-
-
-class LearnedCourse(models.Model):
-    student = models.ForeignKey(mb_models.Student)
-    course = models.ForeignKey(Course)
-    progress = models.IntegerField(default=0)

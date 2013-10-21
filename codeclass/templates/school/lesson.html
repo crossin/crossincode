@@ -25,13 +25,15 @@
 <input type="button" value="提交代码 ( Ctrl+B )" onclick="run_code();" />
 <div id="next_lesson" style="visibility: hidden;display:inline-block">
 {% if lesson.next_lesson %}
-<a href="/lesson/{{ lesson.next_lesson }}/">进入下一课</a>
+<form action="" method="post">
+  {% csrf_token %}
+  <input type="submit" value="进入下一课" />
+</form>
 {% else %}
 完成本系列课程，返回<a href="/course/{{ lesson.course.id }}/">课程列表</a>
 {% endif %}  
 </div>
 <div id="console"></div>
-
 
 <script src="http://ace.c9.io/build/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>

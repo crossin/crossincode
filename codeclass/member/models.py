@@ -3,6 +3,8 @@ from django.db import models
 from django.dispatch import receiver
 from registration.signals import user_activated
 
+from school.models import Course, Lesson
+
 
 class Student(models.Model):
     user = models.OneToOneField(User, editable=False)
@@ -10,7 +12,7 @@ class Student(models.Model):
     gold = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.username
+        return str(self.user)
 
 
 @receiver(user_activated, dispatch_uid='create_student')
@@ -21,3 +23,16 @@ def create_student(sender, user, request, **kwargs):
     except IntegrityError:
         # prevent django-registration duplicate signal bug
         pass
+
+
+class LearnedLesson(models.Model):
+    student = models.ForeignKey(Student)
+    lesson = models.ForeignKey(Lesson)
+    time_learned = models.DateTimeField(auto_now_add=True)
+
+
+class LearnedCourse(models.Model):
+    student = models.ForeignKey(Student)
+    course = models.ForeignKey(Course)
+    progress = models.IntegerField(default=0)
+    time_learned = models.DateTimeField(auto_now=True)

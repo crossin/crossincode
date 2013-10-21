@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h3>{{ student }}</h3>
+<hr />
+<h4>My Courses</h4>
+{% for c in courses %}
+<a href="/course/{{ c.course.id }}/">{{ c.course.name }}</a> {{ c.progress }}%
+<br />
+{% endfor %}
+
+{% endblock %}
+
