@@ -1,3 +1,4 @@
+#-*- encoding=utf-8 -*-
 # Django settings for codeclass project.
 from os.path import dirname, join as join_path
 
@@ -183,5 +184,16 @@ LOGGING = {
 ACCOUNT_ACTIVATION_DAYS = 7
 
 # email
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = '/tmp/crossincode.email/'
+#EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+#EMAIL_FILE_PATH = '/tmp/crossincode.email/'
+
+EMAIL_HOST = 'smtpcloud.sohu.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'postmaster@crossinsys.sendcloud.org'
+EMAIL_HOST_PASSWORD = '0qiDkTL9'
+
+#EMAIL_FROM = u'Crossin的编程教室<system@crossin.me>'
+DEFAULT_FROM_EMAIL = u'Crossin的编程教室<system@crossin.me>'
+
+#EMAIL_USE_TLS
+#EMAIL_USE_SSL
