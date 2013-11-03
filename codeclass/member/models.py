@@ -12,17 +12,12 @@ class Student(models.Model):
     gold = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return str(self.user)
+        return self.user.username
 
 
 @receiver(user_activated, dispatch_uid='create_student')
 def create_student(sender, user, request, **kwargs):
-    from django.db import IntegrityError
-    try:
-        Student.objects.create(user=user)
-    except IntegrityError:
-        # prevent django-registration duplicate signal bug
-        pass
+    Student.objects.create(user=user)
 
 
 class LearnedLesson(models.Model):

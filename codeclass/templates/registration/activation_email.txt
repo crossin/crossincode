@@ -3,7 +3,7 @@ Someone, hopefully you, signed up for a new account at crossin.me using this ema
 <br />
 <br />
 
-http://115.29.188.128/accounts/activate/{{ activation_key }}/
+http://115.29.188.128/user/activate/{{ activation_key }}/
 
 <br />
 <br />
