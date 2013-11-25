@@ -22,7 +22,7 @@
     </div>
     <form id="code-form" method="post" action="/oj/output/">
       {% csrf_token %}
-      <textarea name="code" id="code" data-theme="a" data-corners="false" placeholder="# tap here to start your code" style="height:340px" wrap="off"></textarea>
+      <textarea name="code" id="code" data-theme="a" data-corners="false" placeholder="# tap here to start your code" style="height:340px" wrap="off">{{ code }}</textarea>
     </form>
   </body>
 </html>

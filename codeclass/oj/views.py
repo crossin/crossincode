@@ -6,7 +6,13 @@ from runcode import run
 
 
 def wechat_view(request):
-    return TemplateResponse(request, 'oj/wechat.html', {})
+    code = request.POST.get('code', '')
+    return TemplateResponse(
+        request,
+        'oj/wechat.html',
+        {
+            'code': code,
+        })
 
 
 def output_view(request):

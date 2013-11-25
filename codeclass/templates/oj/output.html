@@ -4,16 +4,34 @@
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+    <script>
+    $( document ).on( "pageinit", function( event ) {
+        $("a#back").click(function(e){
+            //prevent submitting the form (if there is a form)
+            //e.preventDefault();
+            var data = { 
+               // csrf_token: {% csrf_token %}
+            };
+var csrftoken = $.cookie('csrftoken');
+alert(csrftoken)
+            //$.post("/oj/wechat/", data);
+        }); 
+    });
+    </script>
   </header>
   <body>
     <div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false">
-      <a href="javascript:history.go(-1)" data-icon="back">Back</a>
+      <a onclick="document.getElementById('code-form').submit()" data-icon="back">Back</a>
       <span class="ui-title"></span>
       <a href="/oj/wechat/" data-icon="arrow-r" data-iconpos="right">New</a>
     </div>
     <label for="result"><b>Output:</b></label>
     <textarea name="result" id="result" data-theme="a" disabled="disabled" style="opacity:1;">{{ result }}</textarea>
     <label for="code"><b>Code:</b></label>
-    <textarea name="code" id="code" disabled="disabled" style="opacity:1;">{{ code }}</textarea>
+    <form id="code-form" method="post" action="/oj/wechat/">
+      {% csrf_token %}
+      <textarea name="code" style="display:none">{{code}}</textarea>
+      <textarea disabled="disabled" style="opacity:1">{{ code }}</textarea>
+    </form>
   </body>
 </html>
