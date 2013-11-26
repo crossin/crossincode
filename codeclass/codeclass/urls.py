@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+from . import views
+
 
 admin.autodiscover()
 
@@ -10,6 +12,6 @@ urlpatterns = patterns(
 
     url(r'^oj/', include('oj.urls')),
     url(r'^user/', include('member.urls')),
-    url(r'^', include('school.urls')),
-
+    url(r'^school/', include('school.urls')),
+    url(r'^', views.index_view),
 )
