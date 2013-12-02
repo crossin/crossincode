@@ -75,7 +75,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-#    join_path(PROJECT_ROOT, 'static/').replace('\\', '/'),
+    join_path(PROJECT_ROOT, 'static/').replace('\\', '/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -184,9 +184,10 @@ LOGGING = {
 ACCOUNT_ACTIVATION_DAYS = 7
 
 # email
-#EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-#EMAIL_FILE_PATH = '/tmp/crossincode.email/'
-
+'''
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = '/tmp/crossincode.email/'
+'''
 EMAIL_HOST = 'smtpcloud.sohu.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'postmaster@crossinsys.sendcloud.org'
