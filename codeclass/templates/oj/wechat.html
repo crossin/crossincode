@@ -45,6 +45,54 @@
                 text = code + ac + rest;
                 $("textarea#code").val(text);
             }
+            else if (matchKey(code, "if")) {
+                var rest = text.substring(s)
+                var space = code.split(/\n/).pop().match(/^\s*/)[0];
+                var ac = " #TODO#:\n" + space + "    #TODO#";
+                text = code + ac + rest;
+                $("textarea#code").val(text);    
+            }
+            else if (matchKey(code, "else")) {
+                var rest = text.substring(s)
+                var space = code.split(/\n/).pop().match(/^\s*/)[0];
+                var ac = ":\n" + space + "    #TODO#";
+                text = code + ac + rest;
+                $("textarea#code").val(text);    
+            }
+            else if (matchKey(code, "while")) {
+                var rest = text.substring(s)
+                var space = code.split(/\n/).pop().match(/^\s*/)[0];
+                var ac = " #TODO#:\n" + space + "    #TODO#";
+                text = code + ac + rest;
+                $("textarea#code").val(text);    
+            }
+            else if (matchKey(code, "def")) {
+                var rest = text.substring(s)
+                var space = code.split(/\n/).pop().match(/^\s*/)[0];
+                var ac = " #TODO#(#TODO#):\n" + space + "    #TODO#";
+                text = code + ac + rest;
+                $("textarea#code").val(text);    
+            }
+            else if (matchKey(code, "class")) {
+                var rest = text.substring(s)
+                var space = code.split(/\n/).pop().match(/^\s*/)[0];
+                var ac = " #TODO#:\n" + space + "    #TODO#";
+                text = code + ac + rest;
+                $("textarea#code").val(text);    
+            }
+            else if (matchKey(code, "try")) {
+                var rest = text.substring(s)
+                var space = code.split(/\n/).pop().match(/^\s*/)[0];
+                var ac = ":\n" + space + "    #TODO#\n" + space + "except #TODO#:\n" + space + "    #TODO#";
+                text = code + ac + rest;
+                $("textarea#code").val(text);    
+            }
+            else if (matchKey(code, "from")) {
+                var rest = text.substring(s)
+                var ac = " #TODO# import #TODO#";
+                text = code + ac + rest;
+                $("textarea#code").val(text);    
+            }
             if (text.indexOf("#TODO#") != -1) {
                 $("textarea#code").caret("#TODO#");
             }
@@ -59,7 +107,7 @@
 	  <li><a id="pa">Pa!</a></li>
           <li><a onclick="document.getElementById('code-form').submit();">Run</a></li>
 	</ul>
-      </div> 
+      </div>
     </div>
     <form id="code-form" method="post" action="/oj/output/">
       {% csrf_token %}
