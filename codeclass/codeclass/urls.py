@@ -11,5 +11,6 @@ urlpatterns = patterns(
     url(r'^oj/', include('oj.urls')),
     url(r'^user/', include('member.urls')),
     url(r'^school/', include('school.urls')),
-    url(r'^', 'codeclass.views.index_view'),
+    url(r'^wechat/', include('wechat.urls')),
+    url(r'^$', 'codeclass.views.index_view'),
 )
