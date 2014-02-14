@@ -1,5 +1,5 @@
-from django.template.response import HttpResponse
+from django.template.response import TemplateResponse
 
 
 def index_view(request):
-    return HttpResponse("Welcome to Crossin Code Class!")
+    return TemplateResponse(request, 'index.html', {})
