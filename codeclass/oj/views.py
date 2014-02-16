@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 
 from runcode import run
+from . import models
 
 
 def wechat_view(request):
@@ -27,3 +28,23 @@ def output_view(request):
                 'result': result[0],
             })
     return HttpResponseRedirect(reverse(wechat_view))
+
+
+def sample_list(request):
+    samples = models.Sample.objects.all()
+    return TemplateResponse(
+        request,
+        'oj/sample_list.html',
+        {
+            'samples': samples,
+        })
+
+
+def sample_view(request, sample_id):
+    sample = models.Sample.objects.get(id=sample_id)
+    return TemplateResponse(
+        request,
+        'oj/sample.html',
+        {
+            'sample': sample,
+        })

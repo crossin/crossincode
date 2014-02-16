@@ -7,14 +7,16 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+    <style>.red {color: red;}</style>
   </header>
   <body>
     <ul data-role="listview" data-ajax="false" data-inset="true" data-theme="c">
       <li data-role="list-divider">课程</li>
-      <li><a href="python.html" data-transition="slide">Python</a></li>
+      <li><a href="python.html" data-transition="slide"><span class="red">[荐]</span> Python</a></li>
       <li><a href="pygame.html" data-transition="slide">PyGame</a></li>
       <li><a href="git.html" data-transition="slide">Git</a></li>
       <li data-role="list-divider">练习</li>
+      <li><a href="/oj/sample_list/" data-transition="slide"><span class="red">[荐]</span> 在线例程</a></li>
       <li><a href="exercise.html" data-transition="slide">习题集</a></li>
       <li><a href="/oj/wechat/" data-transition="slide">在线Python编辑器</a></li>
       <li><a href="http://crossin.me/forum.php?mod=forumdisplay&fid=48" data-transition="slide">编程擂台</a></li>
