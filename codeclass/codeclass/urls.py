@@ -8,6 +8,7 @@ urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^checkin/', include('checkin.urls')),
     url(r'^oj/', include('oj.urls')),
     url(r'^user/', include('member.urls')),
     url(r'^school/', include('school.urls')),
