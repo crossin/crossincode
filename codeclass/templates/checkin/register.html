@@ -1,5 +1,26 @@
 {% extends "mobile.html" %}
 
 {% block body %}
-注册
+<form method="POST" id="" action="/checkin/register/" data-ajax="false">
+  {% csrf_token %}
+  <p><input type="text" name="username" placeholder="用户名" /></p>
+  <p><input type="password" id="password" name="password" placeholder="密码" /></p>
+  <input type="checkbox" name="checkbox-mini-0" id="checkbox-mini-0" data-mini="true">
+  <label for="checkbox-mini-0">显示密码</label>
+  <input type="submit" data-theme="b" value="注册" />
+</form>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  $('#checkbox-mini-0').change(function() {
+    var isChecked = $(this).prop('checked');
+    if (isChecked) {
+        $('#password').prop('type', 'text');
+    }
+    else {
+        $('#password').prop('type', 'password');
+    }
+});
+</script>
 {% endblock %}
