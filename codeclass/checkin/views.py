@@ -1,7 +1,11 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
+
+from checkin import models
 
 
 def home(request):
@@ -10,9 +14,20 @@ def home(request):
     return TemplateResponse(request, 'checkin/index.html', {})
 
 
+def success(request, test='123'):
+    print request
+    print test
+    return TemplateResponse(request, 'checkin/success.html', {})
+
+
 def checkin(request):
     if not request.user.is_authenticated():
         return redirect(home)
+    if request.method == 'POST':
+        record = request.POST.get('record')
+        models.Log.objects.create(user=request.user, record=record)
+#        return redirect(success, test='456')
+        return HttpResponseRedirect(reverse('checkin-success', kwargs={'test': 456}))
     return TemplateResponse(request, 'checkin/checkin.html', {})
 
 

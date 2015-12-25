@@ -14,4 +14,4 @@ class Stat(models.Model):
     checkin_days = models.IntegerField(default=0)
     running_days = models.IntegerField(default=0)
     month_running = models.IntegerField(default=0)
-    last_checkin = models.DateField(default=None, is_null=True, blank=True)
+    last_checkin = models.DateField(default=None, null=True, blank=True)

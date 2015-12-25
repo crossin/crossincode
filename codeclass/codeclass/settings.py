@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'forum',
     'oj',
     'wechat',
+    'checkin',
 )
 
 # A sample logging configuration. The only tangible logging
