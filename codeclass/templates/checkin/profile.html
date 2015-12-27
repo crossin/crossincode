@@ -1,0 +1,40 @@
+{% extends "mobile.html" %}
+
+{% block body %}
+共学习 {{ stat.checkin_days }} 天<br />
+已获得 {{ stat.exp }} 点经验值<br />
+学习记录：<br />
+<table width="" cellspacing="" cellpadding="8" border="0">
+  {% for log in log_list %}
+  <tr>
+    <td>
+      {{ log.create_time|date:"M d" }}
+    </td>
+    <td>
+      {% if log.exp %}
+      +{{ log.exp }}
+      {% endif %}
+    </td>
+    <td>
+      {{ log.record }}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<script type="text/javascript">
+var lines = document.getElementsByTagName("tr");
+last_date = "";
+for (var i = 0; i < lines.length; i++) {
+  date = lines[i].children[0];
+  if (date.innerHTML == last_date) {
+    date.innerHTML = "";
+  } else {
+    last_date = date.innerHTML;
+  }
+}
+</script>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

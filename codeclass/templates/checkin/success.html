@@ -1,7 +1,9 @@
 {% extends "mobile.html" %}
 
 {% block body %}
-Good Job!<br />
-已连续签到n天<br />
-获得m点经验值
+Good Job!<br /><br />
+你已连续学习 {{ stat.running_days }} 天<br /><br />
+共学习 {{ stat.checkin_days }} 天<br />
+已获得 {{ stat.exp }} 点经验值<br />
+<a href="/checkin/profile">查看详情</a>
 {% endblock %}

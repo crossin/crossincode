@@ -1,14 +1,17 @@
 {% extends "mobile.html" %}
 
 {% block body %}
-<form method="POST" id="" action="/checkin/register/" data-ajax="false">
-  {% csrf_token %}
-  <p><input type="text" name="username" placeholder="用户名" /></p>
-  <p><input type="password" id="password" name="password" placeholder="密码" /></p>
-  <input type="checkbox" name="checkbox-mini-0" id="checkbox-mini-0" data-mini="true">
-  <label for="checkbox-mini-0">显示密码</label>
-  <input type="submit" data-theme="b" value="注册" />
-</form>
+<div class="ui-body ui-body-a">
+  <form method="POST" id="" action="/checkin/register/" data-ajax="false">
+    {% csrf_token %}
+    <p><input type="text" name="username" placeholder="用户名" /></p>
+    <p><input type="password" id="password" name="password" placeholder="密码" />
+    <input type="checkbox" name="checkbox-mini-0" id="checkbox-mini-0" data-mini="true">
+    <label for="checkbox-mini-0">显示密码</label>
+    </p>
+    <input type="submit" data-theme="b" value="注册" />
+  </form>
+</div>
 {% endblock %}
 
 {% block script %}

@@ -1,6 +1,6 @@
+import datetime
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
@@ -14,20 +14,44 @@ def home(request):
     return TemplateResponse(request, 'checkin/index.html', {})
 
 
-def success(request, test='123'):
-    print request
-    print test
-    return TemplateResponse(request, 'checkin/success.html', {})
+def success(request):
+    stat = request.user.stat
+    return TemplateResponse(request, 'checkin/success.html', {'stat': stat})
+
+
+def profile(request):
+    stat = request.user.stat
+    log_list = models.Log.objects.filter(user=request.user).order_by('-id')
+    return TemplateResponse(request, 'checkin/profile.html', {
+        'stat': stat, 'log_list': log_list})
+
+
+exp_days = (1, 2, 2, 3, 3, 3, 4)
 
 
 def checkin(request):
-    if not request.user.is_authenticated():
+    user = request.user
+    if not user.is_authenticated():
         return redirect(home)
     if request.method == 'POST':
         record = request.POST.get('record')
-        models.Log.objects.create(user=request.user, record=record)
-#        return redirect(success, test='456')
-        return HttpResponseRedirect(reverse('checkin-success', kwargs={'test': 456}))
+        # add stat
+        stat = user.stat
+        today = datetime.date.today()
+        yesterday = today - datetime.timedelta(days=1)
+        exp = 0
+        if stat.last_checkin <= yesterday:
+            if stat.last_checkin < yesterday:
+                stat.running_days = 0
+            exp = exp_days[min(stat.running_days, 6)]
+            stat.exp += exp
+            stat.checkin_days += 1
+            stat.running_days += 1
+            stat.month_running += 1
+            stat.last_checkin = today
+            stat.save()
+        models.Log.objects.create(user=user, record=record, exp=exp)
+        return HttpResponseRedirect('/checkin/success?user=%d' % user.id)
     return TemplateResponse(request, 'checkin/checkin.html', {})
 
 
@@ -51,6 +75,7 @@ def register_user(request):
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             user.set_password(password)
             user.save()
+            models.Stat.objects.create(user=user)
             login(request, user)
             return redirect(checkin)
     return TemplateResponse(request, 'checkin/register.html', {})

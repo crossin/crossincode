@@ -4,7 +4,7 @@ from checkin import models
 
 
 class LogAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'record', 'create_time']
+    list_display = ['id', 'user', 'record', 'exp', 'create_time']
 
 
 class StatAdmin(admin.ModelAdmin):
