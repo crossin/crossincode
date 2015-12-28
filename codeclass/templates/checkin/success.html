@@ -1,9 +1,16 @@
 {% extends "mobile.html" %}
 
 {% block body %}
-Good Job!<br /><br />
-你已连续学习 {{ stat.running_days }} 天<br /><br />
-共学习 {{ stat.checkin_days }} 天<br />
-已获得 {{ stat.exp }} 点经验值<br />
-<a href="/checkin/profile">查看详情</a>
+<div align="center">
+  <br />
+  <h2><i>Good Job!</i></h2>
+  <h1>你已连续学习 <font color="brown">{{ stat.running_days }}</font> 天</h1>
+  <h3>
+    共学习 <font color="brown">{{ stat.checkin_days }}</font> 天
+    </br>
+    已获得 <font color="brown">{{ stat.exp }}</font> 点经验值
+  </h3>
+  <a href="/checkin/profile/" data-role="button" data-inline="true">查看详情</a>
+  <a href="index.html" data-role="button" data-inline="true" data-theme="b">分享</a>
+</p>
 {% endblock %}

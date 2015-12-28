@@ -3,9 +3,8 @@
 {% block body %}
 <form method="POST" id="" action="/checkin/do/" data-ajax="false">
   {% csrf_token %}
-  <label for="textarea-a">我今天</label>
+  <label for="textarea-a"><h3>我今天</h3></label>
   <textarea autofocus name="record" id="textarea-a" placeholder="记录你今天的收获..."></textarea>
   <input type="submit" data-theme="b" value="记录" />
 </form>
-
 {% endblock %}

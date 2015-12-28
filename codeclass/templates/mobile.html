@@ -6,8 +6,13 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
   </header>
   <body>
-    {% block body %}
+    <div data-role="header">
+      <h1>Crossin的编程教室</h1>
+    </div>
+    <div class="ui-body ui-body-a">
+      {% block body %}
     {% endblock %}
+    </div>
   </body>
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
