@@ -1,30 +1,52 @@
 {% extends "mobile.html" %}
 
 {% block body %}
-共学习 {{ stat.checkin_days }} 天<br />
-已获得 {{ stat.exp }} 点经验值<br />
-学习记录：<br />
-<table width="" cellspacing="" cellpadding="8" border="0">
-  {% for log in log_list %}
-  <tr>
-    <td>
-      {{ log.create_time|date:"M d" }}
-    </td>
-    <td>
-      {% if log.exp %}
-      +{{ log.exp }}
-      {% endif %}
-    </td>
-    <td>
-      {{ log.record }}
-    </td>
-  </tr>
-  {% endfor %}
-</table>
+<div class="ui-body ui-body-a ui-corner-all">
+  <p>
+  共学习 <font color="brown">{{ stat.checkin_days }}</font> 天<br />
+  已获得 <font color="brown">{{ stat.exp }}</font> 点经验值<br />
+  </p>
+</div>
+<div data-role="tabs" id="tabs" class="ui-content">
+  <div data-role="navbar" id="navbar">
+    <ul>
+      <li><a href="#one" data-ajax="false" class="ui-btn-active">学习记录</a></li>
+      <li><a href="#two" data-ajax="false">同行之人</a></li>
+    </ul>
+  </div>
+  <div id="one" class="">
+    <table data-role="table" id="table-column-toggle" class="ui-responsive table-stroke">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in log_list %}
+        <tr>
+          <td style="width:15%">
+            {{ log.create_time|date:"m/d" }}
+          </td>
+          <td style="width:10%">
+            {% if log.exp %}
+            <font color="brown">+{{ log.exp }}</font>
+            {% endif %}
+          </td>
+          <td>
+            {{ log.record }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <script type="text/javascript">
 var lines = document.getElementsByTagName("tr");
-last_date = "";
+var last_date = "";
 for (var i = 0; i < lines.length; i++) {
   date = lines[i].children[0];
   if (date.innerHTML == last_date) {
@@ -34,7 +56,4 @@ for (var i = 0; i < lines.length; i++) {
   }
 }
 </script>
-{% endblock %}
-
-{% block script %}
 {% endblock %}
