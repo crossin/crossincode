@@ -1,10 +1,11 @@
 {% extends "mobile.html" %}
 
 {% block body %}
-<div class="ui-body ui-body-a ui-corner-all">
+<div class="ui-body ui-body-a ui-corner-all" align="center">
+  <h4>{{ stat.user }}</h4>
   <p>
   共学习 <font color="brown">{{ stat.checkin_days }}</font> 天<br />
-  已获得 <font color="brown">{{ stat.exp }}</font> 点经验值<br />
+  累计获得 <font color="brown">{{ stat.exp }}</font> 点经验值<br />
   </p>
 </div>
 <div data-role="tabs" id="tabs" class="ui-content">
@@ -14,8 +15,8 @@
       <li><a href="#two" data-ajax="false">同行之人</a></li>
     </ul>
   </div>
-  <div id="one" class="">
-    <table data-role="table" id="table-column-toggle" class="ui-responsive table-stroke">
+  <div id="one">
+    <table data-role="table" id="table-column-toggle" class="table-stroke">
       <thead>
         <tr>
           <th></th>
@@ -34,8 +35,30 @@
             <font color="brown">+{{ log.exp }}</font>
             {% endif %}
           </td>
-          <td>
+          <td style="width:75%">
             {{ log.record }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div id="two">
+    <table data-role="table" id="table-column-toggle" class="ui-responsive table-stroke">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in user_list %}
+        <tr>
+          <td style="width:50%;text-align:center">
+            <a href="/checkin/profile/?user={{ user.user.id }}" data-ajax="false">{{ user.user }}</a>
+          </td>
+          <td style="width:50%;text-align:center">
+            <font color="brown">{{ user.exp }}</font>
           </td>
         </tr>
         {% endfor %}

@@ -20,6 +20,7 @@ DATABASES = {
         'NAME': 'codeclass',
         'USER': 'codeclass',
         'PASSWORD': 'codeclass',
+        'OPTIONS': {'charset': 'utf8mb4'},
         'HOST': '127.0.0.1',
         'PORT': '',
     }

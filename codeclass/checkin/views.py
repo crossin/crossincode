@@ -20,10 +20,21 @@ def success(request):
 
 
 def profile(request):
-    stat = request.user.stat
-    log_list = models.Log.objects.filter(user=request.user).order_by('-id')
+    user_id = request.GET.get('user')
+    if user_id:
+        owner = User.objects.get(id=user_id)
+    else:
+        if not request.user.is_authenticated():
+            return redirect(home)
+        owner = request.user
+    stat = owner.stat
+    log_list = models.Log.objects.filter(user=owner).order_by('-id')
+    user_list = models.Stat.objects.exclude(user=owner).order_by('-exp')[:10]
     return TemplateResponse(request, 'checkin/profile.html', {
-        'stat': stat, 'log_list': log_list})
+        'stat': stat,
+        'log_list': log_list,
+        'user_list': user_list
+    })
 
 
 exp_days = (1, 2, 2, 3, 3, 3, 4)
