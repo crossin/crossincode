@@ -15,8 +15,17 @@ def home(request):
 
 
 def success(request):
-    stat = request.user.stat
-    return TemplateResponse(request, 'checkin/success.html', {'stat': stat})
+    user_id = request.GET.get('user')
+    owner = User.objects.get(id=user_id)
+    stat = owner.stat
+    if owner == request.user:
+        return TemplateResponse(request, 'checkin/success.html', {'stat': stat})
+    else:
+        last_log = owner.log_set.order_by('-id')[0].record
+        return TemplateResponse(request, 'checkin/share.html', {
+            'stat': stat,
+            'last_log': last_log
+        })
 
 
 def profile(request):
