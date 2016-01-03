@@ -68,4 +68,13 @@
     <p>让更多人见证你的进步！</p>
   </div>
 </div>
+<img src="/static/img/repost.jpg" style="width:0px;height:0px;overflow:hidden">
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+window.onload = function() {
+  document.title = '我在Crossin的编程教室连续学习了{{ stat.running_days }}天';
+}
+</script>
 {% endblock %}
