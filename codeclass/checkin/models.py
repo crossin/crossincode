@@ -17,3 +17,12 @@ class Stat(models.Model):
     running_days = models.IntegerField(default=0)
     month_running = models.IntegerField(default=0)
     last_checkin = models.DateField(default=datetime.date.min)
+    supports = models.IntegerField(default=0)
+
+
+class Support(models.Model):
+    user = models.ForeignKey(User, editable=False)
+    supporter = models.ForeignKey(User, default=None, null=True, blank=True,
+                                  editable=False, related_name='supported')
+    support_ip = models.CharField(max_length=1024, blank=True)
+    create_time = models.DateTimeField(auto_now_add=True)

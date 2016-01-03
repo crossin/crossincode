@@ -14,6 +14,26 @@ def home(request):
     return TemplateResponse(request, 'checkin/index.html', {})
 
 
+def check_support(user_id, request_user, ip):
+    recent = datetime.datetime.now() - datetime.timedelta(hours=1)
+    if request_user.is_authenticated():
+        supporter = request_user
+        done = models.Support.objects.filter(
+            user=user_id,
+            supporter=supporter,
+            create_time__gt=recent
+        )
+    else:
+        supporter = None
+        done = models.Support.objects.filter(
+            user=user_id,
+            supporter=supporter,
+            support_ip=ip,
+            create_time__gt=recent
+        )
+    return done, supporter
+
+
 def success(request):
     user_id = request.GET.get('user')
     owner = User.objects.get(id=user_id)
@@ -22,10 +42,13 @@ def success(request):
         return TemplateResponse(request, 'checkin/success.html',
                                 {'stat': stat})
     else:
-        last_log = owner.log_set.order_by('-id')[0].record
+        last_log = owner.log_set.order_by('-id')[0]
+        ip = request.META.get('REMOTE_ADDR', '')
+        done, s = check_support(user_id, request.user, ip)
         return TemplateResponse(request, 'checkin/share.html', {
             'stat': stat,
-            'last_log': last_log
+            'last_log': last_log,
+            'done': done
         })
 
 
@@ -74,6 +97,22 @@ def checkin(request):
         models.Log.objects.create(user=user, record=record, exp=exp)
         return HttpResponseRedirect('/checkin/success?user=%d' % user.id)
     return TemplateResponse(request, 'checkin/checkin.html', {})
+
+
+def support(request):
+    ip = request.META.get('REMOTE_ADDR', '')
+    user_id = request.GET.get('user')
+    done, supporter = check_support(user_id, request.user, ip)
+    if not done:
+        stat = models.Stat.objects.get(user_id=user_id)
+        stat.supports += 1
+        stat.save()
+        models.Support.objects.create(
+            user=stat.user,
+            supporter=supporter,
+            support_ip=ip
+        )
+    return HttpResponseRedirect('/checkin/success?user=%s' % user_id)
 
 
 def login_user(request):

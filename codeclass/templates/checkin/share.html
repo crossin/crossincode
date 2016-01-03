@@ -11,14 +11,30 @@
     累计获得 <font color="brown">{{ stat.exp }}</font> 点经验值
   </h3>
   <div class="ui-grid">
-    <div class="ui-block"><div class="ui-bar ui-bar-a"><i>{{ last_log }}</i></div></div>
+    <div class="ui-block">
+      <div class="ui-bar ui-bar-a">
+	<font color="Gray" style="font-weight:lighter"><i>{{ last_log.create_time|date:"Y-m-d" }}</i></font>
+	<hr />
+	<p><font color="Gray">{{ last_log.record }}</font></p>
+      </div>
+    </div>
   </div>
-  <a href="/checkin/profile/" class="ui-btn ui-btn-b" style="margin:20px 0">赞 <font color="LightGray">11<font></a>
+  {% if done %}
+  <a href="#popupBasic" data-rel="popup" data-transition="slideup" class="ui-btn ui-btn-b" style="margin:20px 0">赞 <font color="LightGray">{{ stat.supports }}<font></a>
+  <div data-role="popup" id="popupBasic">
+    <p>你刚刚已经点过赞了</p>
+  </div>
+  {% else %}
+  <a href="/checkin/support/?user={{ stat.user.id }}" class="ui-btn ui-btn-b" style="margin:20px 0">赞 <font color="LightGray">{{ stat.supports }}<font></a>
+  {% endif %}
 </div>
 <div class="ui-body ui-body-a ui-corner-all" align="center">
   <h4>想加入我们的学习队伍吗？</h4>
-  <p>长按识别下图中的二维码</p>
-  <a href="/checkin/profile/" data-role="button" data-inline="true" data-ajax="false">了解我们</a>  
+  <p>长按识别下图中的二维码
+    <img src="/static/img/qrcode.jpg" class="" alt="crossincode" />
+    <a href="/checkin/do/" data-role="button" data-theme="b" data-inline="true" data-ajax="false">记录你的学习</a>
+    <a href="/checkin/profile/" data-role="button" data-inline="true" data-ajax="false">了解我们</a>
+  </p>
 </div>
 
 {% endblock %}
