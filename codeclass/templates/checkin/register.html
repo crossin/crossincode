@@ -10,6 +10,9 @@
     <input type="checkbox" name="checkbox-mini-0" id="checkbox-mini-0">
     <label for="checkbox-mini-0" style="line-height:1">显示密码</label>
   </p>
+  {% if error %}
+  <p><font color="red">此用户名已被注册，请重新尝试</font></p>
+  {% endif %}
   <input type="submit" data-theme="b" value="注册" />
 </form>
 {% endblock %}

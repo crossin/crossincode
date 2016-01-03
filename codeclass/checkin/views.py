@@ -19,7 +19,8 @@ def success(request):
     owner = User.objects.get(id=user_id)
     stat = owner.stat
     if owner == request.user:
-        return TemplateResponse(request, 'checkin/success.html', {'stat': stat})
+        return TemplateResponse(request, 'checkin/success.html',
+                                {'stat': stat})
     else:
         last_log = owner.log_set.order_by('-id')[0].record
         return TemplateResponse(request, 'checkin/share.html', {
@@ -76,6 +77,7 @@ def checkin(request):
 
 
 def login_user(request):
+    error = ''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -83,10 +85,13 @@ def login_user(request):
         if user:
             login(request, user)
             return redirect(checkin)
-    return TemplateResponse(request, 'checkin/login.html', {})
+        else:
+            error = 'login error'
+    return TemplateResponse(request, 'checkin/login.html', {'error': error})
 
 
 def register_user(request):
+    error = ''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -98,4 +103,6 @@ def register_user(request):
             models.Stat.objects.create(user=user)
             login(request, user)
             return redirect(checkin)
-    return TemplateResponse(request, 'checkin/register.html', {})
+        else:
+            error = 'register error'
+    return TemplateResponse(request, 'checkin/register.html', {'error': error})
