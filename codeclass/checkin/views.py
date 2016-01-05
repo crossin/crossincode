@@ -1,4 +1,5 @@
 import datetime
+from itertools import chain
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -62,11 +63,14 @@ def profile(request):
         owner = request.user
     stat = owner.stat
     log_list = models.Log.objects.filter(user=owner).order_by('-id')
-    user_list = models.Stat.objects.exclude(user=owner).order_by('-exp')[:10]
+    user_others = models.Stat.objects.exclude(user=owner).order_by('-exp')
+    user_list_1 = user_others.filter(exp__gt=stat.exp)[:5]
+    user_list_2 = user_others.filter(
+        exp__lte=stat.exp)[:10-user_list_1.count()]
     return TemplateResponse(request, 'checkin/profile.html', {
         'stat': stat,
         'log_list': log_list,
-        'user_list': user_list
+        'user_list': chain(user_list_1, user_list_2)
     })
 
 
@@ -95,7 +99,7 @@ def checkin(request):
             stat.last_checkin = today
             stat.save()
         models.Log.objects.create(user=user, record=record, exp=exp)
-        return HttpResponseRedirect('/checkin/success?user=%d' % user.id)
+        return HttpResponseRedirect('/checkin/success/?user=%d' % user.id)
     return TemplateResponse(request, 'checkin/checkin.html', {})
 
 
