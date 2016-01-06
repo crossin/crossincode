@@ -67,10 +67,12 @@ def profile(request):
     user_list_1 = user_others.filter(exp__gt=stat.exp)[:5]
     user_list_2 = user_others.filter(
         exp__lte=stat.exp)[:10-user_list_1.count()]
+    done, s = check_support(user_id, request.user, '')
     return TemplateResponse(request, 'checkin/profile.html', {
         'stat': stat,
         'log_list': log_list,
-        'user_list': chain(user_list_1, user_list_2)
+        'user_list': chain(user_list_1, user_list_2),
+        'done': done
     })
 
 
@@ -116,7 +118,7 @@ def support(request):
             supporter=supporter,
             support_ip=ip
         )
-    return HttpResponseRedirect('/checkin/success?user=%s' % user_id)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 def login_user(request):

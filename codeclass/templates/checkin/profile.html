@@ -1,5 +1,13 @@
 {% extends "mobile.html" %}
 
+{% block nav %}
+{% if stat.user == user %}
+<a href="/checkin/do/" class="ui-btn-left"> 做记录 </a>
+{% else %}
+{{ block.super }}
+{% endif %}
+{% endblock %}
+
 {% block body %}
 <div class="ui-body ui-body-a ui-corner-all" align="center">
   <h4>{{ stat.user }}</h4>
@@ -7,9 +15,23 @@
   共学习 <font color="brown">{{ stat.checkin_days }}</font> 天<br />
   连续学习 <font color="brown">{{ stat.running_days }}</font> 天<br />
   累计获得 <font color="brown">{{ stat.exp }}</font> 点经验值<br />
+  {% if stat.user == user %}
   收到 <font color="brown">{{ stat.supports }}</font> 个赞<br />
+  {% endif %}
   </p>
 </div>
+{% if stat.user != user %}
+{% if done %}
+<a href="#popupBasic" data-rel="popup" data-transition="slideup" class="ui-btn ui-btn-b" style="margin:20px 0">赞 <font color="LightGray">{{ stat.supports }}<font></a>
+<div data-role="popup" id="popupBasic">
+  <p>你刚刚已经点过赞了</p>
+</div>
+{% else %}
+<a href="/checkin/support/?user={{ stat.user.id }}" class="ui-btn ui-btn-b" data-ajax="false" style="margin:20px 0">赞 <font color="LightGray">{{ stat.supports }}<font></a>
+{% endif %}
+{% else %}
+<br />
+{% endif %}
 <div data-role="tabs" id="tabs" class="ui-content">
   <div data-role="navbar" id="navbar">
     <ul>
