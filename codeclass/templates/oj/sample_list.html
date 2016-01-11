@@ -12,7 +12,7 @@
     <ul data-role="listview" data-ajax="false" data-inset="true" data-theme="c">
       <li data-role="list-divider">在线例程</li>
       {% for s in samples %}
-      <li><a href="../sample/{{s.id}}/">{{s.id}}. {{ s.title }}</a></li>
+      <li><a href="../sample/{{s.id}}/" data-ajax="false">{{s.id}}. {{ s.title }}</a></li>
       {% endfor %}
     </ul>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=30493657" charset="UTF-8"></script>

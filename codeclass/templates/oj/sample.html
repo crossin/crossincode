@@ -12,11 +12,13 @@
     <ul data-role="listview" data-ajax="false" data-inset="true" data-theme="c">
       <li data-role="list-divider">{{ sample.title }}</li>
       <li>{{ sample.desc | safe}}</li>
-      <li data-theme="a"><a onclick="document.getElementById('code-form').submit()" data-transition="slide">在线运行演示代码</a></li>
+      <li data-theme="a"><a onclick="document.getElementById('code-form').submit()" data-transition="slide" data-ajax="false">在线运行演示代码</a></li>
+      <li><a href="{{ sample.url }}">参考教程</a></li>
     </ul>
     <form id="code-form" method="post" action="/oj/wechat/">
       {% csrf_token %}
       <textarea name="code" style="display:none">{{ sample.code }}</textarea>
+      <input type="hidden" name="url" value="{{ sample.url }}" />
     </form>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=30493657" charset="UTF-8"></script>
   </body>

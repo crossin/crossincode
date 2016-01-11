@@ -14,6 +14,7 @@ class Sample(models.Model):
     title = models.CharField(max_length=50)
     desc = models.CharField(max_length=500)
     code = models.CharField(max_length=3000)
+    url = models.CharField(max_length=200)
 
     def __unicode__(self):
         return self.title

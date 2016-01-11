@@ -104,15 +104,25 @@
     <div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false">
       <div data-role="navbar">
 	<ul>
-	  <li><a id="pa">Pa!</a></li>
-          <li><a onclick="document.getElementById('code-form').submit();">Run</a></li>
+	  <li><a id="pa">自动补全</a></li>
+          <li><a onclick="document.getElementById('code-form').submit();">运行 Run</a></li>
 	</ul>
       </div>
     </div>
     <form id="code-form" method="post" action="/oj/output/">
       {% csrf_token %}
       <textarea name="code" id="code" data-theme="a" data-corners="false" placeholder="# tap here to start your code" style="height:340px" wrap="off">{{ code }}</textarea>
+      <input type="hidden" name="url" value="{{ url }}" />
     </form>
+    <div style="font-size:14;">
+      <a href="/oj/sample_list/">在线例程</a>
+      <p>
+        使用说明:
+        <li>目前是测试版本，很多功能还未完善，比如不能 import 绝大部分的模块，不能使用 += 这种复合赋值运算符</li><br />
+        <li>“自动补全”可以在你输入 for/if/else/while/def/class等关键字后使用，自动添加部分代码，并标记出需要补全位置#TODO#</li><br />
+        <li>当代码中存在需要补全的部分时，点击“自动补全”，可以直接跳转至该处</li>
+      </p>
+    </div>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=30493657" charset="UTF-8"></script>
   </body>
 </html>
