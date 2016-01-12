@@ -13,7 +13,9 @@
       <li data-role="list-divider">{{ sample.title }}</li>
       <li>{{ sample.desc | safe}}</li>
       <li data-theme="a"><a onclick="document.getElementById('code-form').submit()" data-transition="slide" data-ajax="false">在线运行演示代码</a></li>
+      {% if sample.url %}
       <li><a href="{{ sample.url }}">参考教程</a></li>
+      {% endif %}
     </ul>
     <form id="code-form" method="post" action="/oj/wechat/">
       {% csrf_token %}

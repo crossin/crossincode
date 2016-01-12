@@ -25,7 +25,7 @@ class SampleForm(forms.ModelForm):
 
 class SampleAdmin(admin.ModelAdmin):
     form = SampleForm
-    list_display = ['id', 'title']
+    list_display = ['id', 'seq', 'title']
 
 
 admin.site.register(models.Quiz, QuizAdmin)
