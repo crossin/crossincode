@@ -1,128 +1,124 @@
+{% extends "oj/oj.html" %}
+
 {% load static %}
 
-<html>
-  <header>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
-    <script src="{% static '/static/js/jquery.caret.1.02.min.js' %}"></script>
+{% block header %}
+<script src="{% static 'js/jquery.caret.1.02.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/my-style.css' %}" />
+<script>
+function matchKey(str, suffix) {
+    return str.match(suffix+"$")==suffix;
+}
+$( document ).on( "pageinit", function( event ) {
+    $("#code").attr("rows", 20);
+    $("#code").css({"min-height":"100px"});
 
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
-
-    <script>
-    function matchKey(str, suffix) {
-        return str.match(suffix+"$")==suffix;
-    }
-    $( document ).on( "pageinit", function( event ) {
-        $("[data-role=header]").fixedtoolbar({ hideDuringFocus: "" });
-        $("#code").attr("rows", 20);
-
-        $("textarea#code").keyup(function (e) {
-            if(e.keyCode == 13) {
-                var text = $(this).val();
-                var s = $(this).caret().start;
-                var code = text.substring(0, s-1);
-                var rest = text.substring(s);
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                if (code.charAt(code.length-1) == ":") {
-                    space += "    "
-                }
-                text = code + "\n" + space + rest;
-                $("textarea#code").val(text);
-                s = s + space.length;
-                $("textarea#code").caret(s, s);
+    $("textarea#code").keyup(function (e) {
+        if(e.keyCode == 13) {
+            var text = $(this).val();
+            var s = $(this).caret().start;
+            var code = text.substring(0, s-1);
+            var rest = text.substring(s);
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            if (code.charAt(code.length-1) == ":") {
+                space += "    "
             }
-        });
-
-        $("a#pa").click(function() {
-            var text = $("textarea#code").val();
-            var s = $("textarea#code").caret().start;
-            var code = text.substring(0, s);
-            if (matchKey(code, "for")) {
-                var rest = text.substring(s)
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                var ac = " #TODO# in #TODO#:\n" + space + "    #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);
-            }
-            else if (matchKey(code, "if")) {
-                var rest = text.substring(s)
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                var ac = " #TODO#:\n" + space + "    #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);    
-            }
-            else if (matchKey(code, "else")) {
-                var rest = text.substring(s)
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                var ac = ":\n" + space + "    #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);    
-            }
-            else if (matchKey(code, "while")) {
-                var rest = text.substring(s)
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                var ac = " #TODO#:\n" + space + "    #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);    
-            }
-            else if (matchKey(code, "def")) {
-                var rest = text.substring(s)
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                var ac = " #TODO#(#TODO#):\n" + space + "    #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);    
-            }
-            else if (matchKey(code, "class")) {
-                var rest = text.substring(s)
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                var ac = " #TODO#:\n" + space + "    #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);    
-            }
-            else if (matchKey(code, "try")) {
-                var rest = text.substring(s)
-                var space = code.split(/\n/).pop().match(/^\s*/)[0];
-                var ac = ":\n" + space + "    #TODO#\n" + space + "except #TODO#:\n" + space + "    #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);    
-            }
-            else if (matchKey(code, "from")) {
-                var rest = text.substring(s)
-                var ac = " #TODO# import #TODO#";
-                text = code + ac + rest;
-                $("textarea#code").val(text);    
-            }
-            if (text.indexOf("#TODO#") != -1) {
-                $("textarea#code").caret("#TODO#");
-            }
-        });
+            text = code + "\n" + space + rest;
+            $("textarea#code").val(text);
+            s = s + space.length;
+            $("textarea#code").caret(s, s);
+        }
     });
-    </script>
-  </header>
-  <body>
-    <div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false">
-      <div data-role="navbar">
-	<ul>
-	  <li><a id="pa">自动补全</a></li>
-          <li><a onclick="document.getElementById('code-form').submit();">运行 Run</a></li>
-	</ul>
-      </div>
-    </div>
-    <form id="code-form" method="post" action="/oj/output/">
-      {% csrf_token %}
-      <textarea name="code" id="code" data-theme="a" data-corners="false" placeholder="# tap here to start your code" style="height:340px" wrap="off">{{ code }}</textarea>
-      <input type="hidden" name="url" value="{{ url }}" />
-    </form>
-    <div style="font-size:14;">
-      <a href="/oj/sample_list/">在线例程</a>
-      <p>
-        使用说明:
-        <li>目前是测试版本，很多功能还未完善，比如不能 import 绝大部分的模块，不能使用 += 这种复合赋值运算符</li><br />
-        <li>“自动补全”可以在你输入 for/if/else/while/def/class等关键字后使用，自动添加部分代码，并标记出需要补全位置#TODO#</li><br />
-        <li>当代码中存在需要补全的部分时，点击“自动补全”，可以直接跳转至该处</li>
-      </p>
-    </div>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=30493657" charset="UTF-8"></script>
-  </body>
-</html>
+
+    $("a#pa").click(function() {
+        $(this).removeClass('ui-btn-active');
+        var text = $("textarea#code").val();
+        var s = $("textarea#code").caret().start;
+        var code = text.substring(0, s);
+        if (matchKey(code, "for")) {
+            var rest = text.substring(s)
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            var ac = " #TODO# in #TODO#:\n" + space + "    #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);
+        }
+        else if (matchKey(code, "if")) {
+            var rest = text.substring(s)
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            var ac = " #TODO#:\n" + space + "    #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);    
+        }
+        else if (matchKey(code, "else")) {
+            var rest = text.substring(s)
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            var ac = ":\n" + space + "    #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);    
+        }
+        else if (matchKey(code, "while")) {
+            var rest = text.substring(s)
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            var ac = " #TODO#:\n" + space + "    #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);    
+        }
+        else if (matchKey(code, "def")) {
+            var rest = text.substring(s)
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            var ac = " #TODO#(#TODO#):\n" + space + "    #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);    
+        }
+        else if (matchKey(code, "class")) {
+            var rest = text.substring(s)
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            var ac = " #TODO#:\n" + space + "    #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);    
+        }
+        else if (matchKey(code, "try")) {
+            var rest = text.substring(s)
+            var space = code.split(/\n/).pop().match(/^\s*/)[0];
+            var ac = ":\n" + space + "    #TODO#\n" + space + "except #TODO#:\n" + space + "    #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);    
+        }
+        else if (matchKey(code, "from")) {
+            var rest = text.substring(s)
+            var ac = " #TODO# import #TODO#";
+            text = code + ac + rest;
+            $("textarea#code").val(text);    
+        }
+        if (text.indexOf("#TODO#") != -1) {
+            $("textarea#code").caret("#TODO#");
+        }
+    });
+});
+</script>
+{% endblock %}    
+
+{% block body %}
+<div data-role="header" data-theme="b">
+  <h1>Python 在线编辑器</h1>
+</div>
+<form id="code-form" method="post" action="/oj/output/">
+  {% csrf_token %}
+  <textarea name="code" id="code" class="code ide" data-theme="b" data-corners="false" placeholder="# tap here to start your code" style="height:340px" wrap="off">{{ code }}</textarea>
+  <input type="hidden" name="url" value="{{ url }}" />
+</form>
+<div align="center">
+  <a data-role="button" id="pa" data-inline="true">自动补全</a>
+  <a data-role="button" data-theme="b" data-inline="true" data-ajax="false" onclick="document.getElementById('code-form').submit();">运行 Run</a>
+</div>
+<hr />
+<div style="font-size:14;">
+  <p align="center"><a href="/oj/sample_list/">点此进入 [在线例程]</a></p>
+  <p>
+    使用说明:
+    <li>目前是测试版本，很多功能还未完善，比如不能 import 绝大部分的模块，不能使用 += 这种复合赋值运算符</li><br />
+    <li>“自动补全”可以在你输入 for/if/else/while/def/class等关键字后使用，自动添加部分代码，并标记出需要补全位置#TODO#</li><br />
+    <li>当代码中存在需要补全的部分时，点击“自动补全”，可以直接跳转至该处</li>
+  </p>
+</div>
+{% endblock %}

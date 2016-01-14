@@ -1,35 +1,34 @@
-<html>
-  <header>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
-  </header>
-  <body>
-    <div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false">
-      <a onclick="document.getElementById('code-form').submit()" data-icon="back">修改</a>
-      <span class="ui-title"></span>
-      {% if url %}
-      <a href="/oj/sample_list/" data-icon="arrow-r" data-iconpos="right">目录</a>
-      {% else %}
-      <a onclick="document.getElementById('blank-form').submit()" data-icon="arrow-r" data-iconpos="right">新建</a>
-      {% endif %}
-    </div>
-    <label for="result"><b>输出</b></label>
-    <textarea name="result" id="result" data-theme="a" disabled="disabled" style="opacity:1;">{{ result }}</textarea>
-    {% if url %}
-    <p>
-      <a href="{{ url }}" target="_blank">参考教程</a>
-    </p>
-    {% endif %}
-    <label for="code"><b>代码</b></label>
-    <form id="code-form" method="post" action="/oj/wechat/">
-      {% csrf_token %}
-      <textarea name="code" style="display:none">{{code}}</textarea>
-      <textarea disabled="disabled" style="opacity:1">{{ code }}</textarea>
-      <input type="hidden" name="url" value="{{ url }}" />
-    </form>
-    <form id="blank-form" method="get" action="/oj/wechat/"></form>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=30493657" charset="UTF-8"></script>
-  </body>
-</html>
+{% extends "oj/oj.html" %}
+
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/my-style.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div data-role="header" data-position="fixed" data-theme="b" data-tap-toggle="false">
+  <a onclick="document.getElementById('code-form').submit()" data-icon="back">修改</a>
+  <span class="ui-title"></span>
+  {% if url %}
+  <a href="/oj/sample_list/" data-icon="arrow-r" data-iconpos="right">目录</a>
+  {% else %}
+  <a onclick="document.getElementById('blank-form').submit()" data-icon="arrow-r" data-iconpos="right">新建</a>
+  {% endif %}
+</div>
+<label for="result"><b>输出</b></label>
+<textarea name="result" class="code" id="result" data-theme="a" disabled="disabled" style="opacity:1;">{{ result }}</textarea>
+{% if url %}
+<p>
+  <a href="{{ url }}" target="_blank">参考教程</a>
+</p>
+{% endif %}
+<label for="code"><b>代码</b></label>
+<form id="code-form" method="post" action="/oj/wechat/">
+  {% csrf_token %}
+  <textarea name="code" style="display:none">{{code}}</textarea>
+  <textarea disabled="disabled" style="opacity:1">{{ code }}</textarea>
+  <input type="hidden" name="url" value="{{ url }}" />
+</form>
+<form id="blank-form" method="get" action="/oj/wechat/"></form>
+{% endblock %}
