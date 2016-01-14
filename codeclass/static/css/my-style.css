@@ -1,6 +1,6 @@
 .ui-corner-all{margin-bottom: 8px;}
 .red{color: red;}
-.desc{color:darkgray;font-size:13px;font-weight:normal;}
+.desc{color:gray;font-size:13px;font-weight:normal;}
 a.nav{line-height:2;}
 textarea.code{color:white;background-color:#222;text-shadow:0 1px 0 #111;}
 textarea.ide{min-height:180px;}
