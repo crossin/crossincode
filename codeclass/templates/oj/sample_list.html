@@ -10,7 +10,7 @@
 <ul data-role="listview" data-ajax="false" data-inset="true">
   <li data-role="list-divider" data-theme="b">在线例程</li>
   {% for s in samples %}
-  <li><a href="../sample/{{s.seq}}/" data-ajax="false">{{s.id}}. {{ s.title }}</a></li>
+  <li><a href="../sample/{{s.id}}/" data-ajax="false">{{s.seq}}. {{ s.title }}</a></li>
   {% endfor %}
 </ul>
 {% endblock %}
