@@ -140,7 +140,8 @@ def register_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        if not User.objects.filter(username=username).exists() and username.strip():
+        if not User.objects.filter(username=username).exists() and (
+                username.strip() and password):
             user = User.objects.create(username=username)
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             user.set_password(password)
