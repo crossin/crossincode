@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib import admin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from oj import models
 
@@ -23,7 +25,13 @@ class SampleForm(forms.ModelForm):
         model = models.Sample
 
 
-class SampleAdmin(admin.ModelAdmin):
+class SampleResource(resources.ModelResource):
+    class Meta:
+        model = models.Sample
+
+
+class SampleAdmin(ImportExportModelAdmin):
+    resource_class = SampleResource
     form = SampleForm
     list_display = ['id', 'seq', 'title']
 

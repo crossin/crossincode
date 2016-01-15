@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'south',
     'dajaxice',
     'dajax',
+    'import_export',
     'school',
     'member',
     'forum',
